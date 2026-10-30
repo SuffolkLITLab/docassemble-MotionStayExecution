@@ -11,38 +11,16 @@ metadata:
     Motion to Stay Execution
   tags:
     - HO-00-00-00-00
+  LIST_topics:
+    - HO-00-00-00-00
   authors:
     - Court Forms Online
----
-mandatory: True
-comment: |
-  This contains metadata that will not be overwritten if this YAML file is included in another
-  file. Each file gets its own key in the interview_metadata dictionary.
-  Most keys are not currently used at runtime, other than "allowed courts".
-code: |
-  interview_metadata
-  if not defined("interview_metadata['Motion_to_stay_execution']"):
-    interview_metadata.initializeObject("Motion_to_stay_execution")
-    interview_metadata["Motion_to_stay_execution"].update({
-      "al_weaver_version": "1.4.4",
-      "generated on": "2021-11-19",
-      "title": "Motion to Stay Execution",
-      "short title": "Motion to Stay Execution",
-      "description": "If you lost your eviction case or agreed in court to a judgment to move out and you need more time to move, you can ask a judge to postpone your eviction. To do this you must act fast and fill out and file the Stay of Execution with the court.",
-      "original_form": "",
-      "allowed courts": [
-        "Boston Municipal Court",
-        "District Court",
-        "Housing Court",
-        "Superior Court",
-      ],
-      "categories": [
-        "HO-00-00-00-00",
-      ],        
-      "logic block variable": "interview_order_Motion_to_stay_execution",
-      "attachment block variable": "Motion_to_stay_execution_attachment",
-      "typical role": "defendant",
-    })
+  jurisdiction: NAM-US-US+MA
+  description: |
+    If you lost your eviction case or agreed in court to a judgment to move out
+    and you need more time to move, you can ask a judge to postpone your eviction.
+    To do this you must act fast and fill out and file the Stay of Execution with
+    the court.
 ---
 code: |
   interview_metadata['main_interview_key'] =  'Motion_to_stay_execution'
@@ -80,7 +58,6 @@ comment: |
 id: interview_order_Motion_to_stay_execution
 code: |
   # Set the allowed courts for this interview
-  allowed_courts = interview_metadata["Motion_to_stay_execution"]["allowed courts"]
   nav.set_section('review_Motion_to_stay_execution')
   user_role = 'defendant'
   What_you_need_to_get_started
@@ -114,19 +91,21 @@ code: |
   al_intro_screen
   Motion_to_stay_execution_intro
   interview_order_Motion_to_stay_execution
-  signature_date
   # Save anonymized interview statistics (customize the saved data below)
   store_variables_snapshot(data={'zip': users[0].address.zip})
   Motion_to_stay_execution_preview_question
+  signature_date
   basic_questions_signature_flow
   Motion_to_stay_execution_download
 ---
-auto terms:
+terms:
   physical or mental disability: |
     A disability can be a physical or mental impairment which significantly limits:
+
     * The housing that is appropriate for the person; or
     * The person's ability to seek new housing; or
     * The person's ability to care for herself, perform manual tasks, walk, see, hear, speak, breathe, learn, or work.
+
     **One does not have to be receiving disability benefits to be considered disabled for purposes of getting a Stay of Execution.**
   avoid an eviction: |
     For instance, if your damages (which may arise from counterclaims filed against the landlord) are less than the amount owed to the landlord (e.g. back rent), you have seven days to avoid eviction by paying the balance, with interest, and court costs. (M.G.L. c. 239, § 8A)
@@ -141,7 +120,7 @@ question: |
    Did you lose your eviction case? 
    Do you now need more time to move?
 subquestion: |
-  ### If you lost your eviction case or agreed in court to a judgment to move out and you need more time to move, you can ask a judge to postpone your eviction. To do this, **you must act fast and file the Stay of Execution with the court**.
+  If you lost your eviction case or agreed in court to a judgment to move out and you need more time to move, you can ask a judge to postpone your eviction. To do this, **you must act fast and file the Stay of Execution with the court**.
   
   *This form helps you ask the court to allow you more time to find new housing.*
   
@@ -157,7 +136,7 @@ subquestion: |
   A court may initially give you a shorter period of time and then allow you to file another motion if you need more time. The court also considers the hardship that your staying has on the landlord.
   
   
-  ### If you are being evicted for non-payment of rent, you do not have any legal basis to request a stay. However, there are still ways to {avoid an eviction}. 
+  If you are being evicted for non-payment of rent, you do not have any legal basis to request a stay. However, there are still ways to {avoid an eviction}. 
  
 ---
 id: What you need to get started
@@ -191,16 +170,17 @@ fields:
 id: impaired
 question: |
   Physical or Mental Impairments
-subquestion: |
-  Is there anyone living in the home, including yourself, that has a {physical or mental disability}?
-yesno: impaired
+fields:
+  - "Is there anyone living in the home, including yourself, that has a {physical or mental disability}?": impaired
+    datatype: yesnoradio
 ---
 id: elderly
 question: |
   Elderly Residents
 subquestion: |
-  Is there anyone living in the home, including yourself, that is 60 years old or older?
-yesno: elderly
+fields:
+  - "Is there anyone living in the home, including yourself, that is 60 years old or older?": elderly
+    datatype: yesnoradio
 ---
 id: Diligent efforts to find a new home
 question: |
@@ -221,6 +201,7 @@ fields:
   - "Do you have any special hardships that prevent you from moving now?": hardship
     help: |
       For example:
+
       * I have rented a new apartment, but it will not be available for a month.
       * I cannot move until my children finish school.
       * I am handicapped or elderly and cannot find a suitable place.
@@ -332,6 +313,7 @@ review:
       % endfor
 ---
 continue button field: other_parties.revisit
+id: edit_other_parties
 question: |
   Edit other_parties
 subquestion: |
@@ -353,6 +335,7 @@ confirm: True
 
 ---
 continue button field: signature_date.revisit
+id: edit_signature_date
 question: |
   Edit signature_date
 subquestion: |
@@ -371,6 +354,7 @@ confirm: True
 
 ---
 continue button field: users.revisit
+id: edit_users
 question: |
   Edit users
 subquestion: |
